@@ -12,7 +12,7 @@ const emits = defineEmits<{
 }>();
 
 const currentDate = ref<Date>(date ? new Date(date) : new Date());
-const FirstDay = new Date(2025, 10, 3); // Понедельник
+const FirstDay: Date = new Date(2025, 10, 3); // Понедельник
 const selectedDate = ref<Date>(new Date(currentDate.value));
 const currentMonth = ref<number>(currentDate.value.getMonth());
 const currentYear = ref<number>(currentDate.value.getFullYear());
@@ -23,14 +23,14 @@ const addDays = (date: Date, days: number) => {
 };
 
 // получаем названия дней недели в нужной нам локализации
-const localeWeekdays = computed(() => {
+const localeWeekdays = computed<string[]>(() => {
   return [...Array(7)].map((_, i) =>
     new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(addDays(FirstDay, i)),
   );
 });
 
 // Получаем дни недели включая остаток предыдущего месяца
-const daysInMonth = computed(() => {
+const daysInMonth = computed<Date[]>(() => {
   const firstDay = new Date(currentYear.value, currentMonth.value, 1);
   const lastDay = new Date(currentYear.value, currentMonth.value + 1, 0);
   const days = [];
@@ -70,7 +70,7 @@ const nextMonth = (): void => {
 };
 
 // устанавливаем дату и отправляем в родитель
-const selectDate = (day: Date) => {
+const selectDate = (day: Date): void => {
   selectedDate.value = day;
   emits('selectDate', day);
 };
@@ -176,6 +176,7 @@ const isSelected = (day: Date): boolean => {
   }
 
   .day.selected {
+    transition: border 0.5s ease;
     border: #1ecaf1 solid 1px;
   }
 }

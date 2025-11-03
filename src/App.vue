@@ -2,15 +2,14 @@
 import { ref } from 'vue';
 import CalendarComponent from '@/components/calendar/CalendarComponent.vue';
 
-const currentDate = ref();
-
+const currentDate = ref<Date>();
+const currentLocale = ref<string>('ru');
 const languages: Record<string, string> = {
   ru: 'Русский',
   en: 'English',
   de: 'Deutsch',
   fr: 'Français',
 };
-const currentLocale = ref('ru');
 </script>
 
 <template>
@@ -36,9 +35,19 @@ body {
 
 .button {
   cursor: pointer;
+
+  &:hover {
+    transition:
+      color 0.25s ease,
+      scale 0.25s ease;
+    scale: 110%;
+    color: #a4a4a4;
+  }
 }
 
 select {
   margin-bottom: 40px;
+  background: #000;
+  color: #fff;
 }
 </style>
